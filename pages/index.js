@@ -5,7 +5,7 @@ function ServiceCard({ service, busy, onAction }) {
   return (
     <article className={`service-card ${service.online ? "is-online" : "is-offline"}`}>
       <div className="card-topline">
-        <div className="service-mark" aria-hidden="true">{service.id === "recgov" ? "R" : "P"}</div>
+        <div className="service-mark" aria-hidden="true">{service.name.trim().charAt(0).toUpperCase() || "S"}</div>
         <div className="service-heading">
           <h2>{service.name}</h2>
           <p>{service.description}</p>
@@ -20,7 +20,7 @@ function ServiceCard({ service, busy, onAction }) {
       </div>
 
       <div className="card-actions">
-        {service.online && <a className="open-button" href={`http://${typeof window !== "undefined" ? window.location.hostname : "localhost"}:${service.port}`} target="_blank" rel="noreferrer">Open service</a>}
+        {service.online && <a className="open-button" href={`http://${typeof window !== "undefined" ? window.location.hostname : "localhost"}:${service.port}${service.openPath || "/"}`} target="_blank" rel="noreferrer">Open service</a>}
         <button
           className={service.online ? "stop-button" : "start-button"}
           disabled={busy}
@@ -96,6 +96,7 @@ export default function Home() {
   const [shutdownArmed, setShutdownArmed] = useState(false);
   const [shuttingDown, setShuttingDown] = useState(false);
   const [dashboardStopped, setDashboardStopped] = useState(false);
+  const [statusLoaded, setStatusLoaded] = useState(false);
 
   const refresh = useCallback(async () => {
     try {
@@ -106,6 +107,8 @@ export default function Home() {
       setLastUpdated(new Date());
     } catch {
       setNotice("Local Control could not refresh service status.");
+    } finally {
+      setStatusLoaded(true);
     }
   }, []);
 
@@ -216,17 +219,19 @@ export default function Home() {
           </div>
           <div className="summary-card">
             <span>System status</span>
-            <strong>{services.length ? `${summary} of ${services.length}` : "Checking"}</strong>
-            <small>{services.length && summary === services.length ? "All services operational" : `${services.length - summary} service${services.length - summary === 1 ? "" : "s"} offline`}</small>
+            <strong>{statusLoaded ? `${summary} of ${services.length}` : "Checking"}</strong>
+            <small>{!statusLoaded ? "Reading service configuration" : services.length === 0 ? "No services configured" : summary === services.length ? "All services operational" : `${services.length - summary} service${services.length - summary === 1 ? "" : "s"} offline`}</small>
           </div>
         </section>
 
         {notice && <div className="notice" role="status">{notice}<button onClick={() => setNotice("")} aria-label="Dismiss">×</button></div>}
 
         <section className="services-grid" aria-label="Services">
-          {services.length
+          {!statusLoaded
+            ? [0, 1].map((item) => <div className="service-card skeleton" key={item} />)
+            : services.length
             ? services.map((service) => <ServiceCard key={service.id} service={service} busy={busy === service.id} onAction={takeAction} />)
-            : [0, 1].map((item) => <div className="service-card skeleton" key={item} />)}
+            : <div className="empty-state"><span>+</span><div><h2>No services configured</h2><p>Copy <code>.env.example</code> to <code>.env.local</code>, add service IDs, and restart Local Control.</p></div></div>}
         </section>
 
         <NotificationSettings settings={settings} saving={savingSettings} onChange={updateSetting} />
@@ -238,7 +243,7 @@ export default function Home() {
       </main>
       {dashboardStopped && (
         <div className="stopped-screen" role="status">
-          <div><span>LC</span><h2>Local Control stopped</h2><p>RecGov and Register2Park were not affected. You can close this page.</p></div>
+          <div><span>LC</span><h2>Local Control stopped</h2><p>Your configured services were not affected. You can close this page.</p></div>
         </div>
       )}
     </>

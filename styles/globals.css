@@ -96,6 +96,11 @@ h1 em { color: #8693b1; font-style: normal; font-weight: 500; }
 @keyframes spin { to { transform: rotate(360deg); } }
 .skeleton { background: linear-gradient(100deg, rgba(24,33,56,.8) 25%, rgba(37,49,78,.8) 50%, rgba(24,33,56,.8) 75%); background-size: 200% 100%; animation: shimmer 1.5s infinite; }
 @keyframes shimmer { to { background-position-x: -200%; } }
+.empty-state { grid-column: 1 / -1; display: flex; align-items: center; justify-content: center; gap: 16px; min-height: 190px; padding: 28px; border: 1px dashed rgba(151,168,205,.2); border-radius: 22px; color: var(--muted); background: rgba(255,255,255,.018); }
+.empty-state > span { display: grid; place-items: center; flex: 0 0 auto; width: 42px; height: 42px; border-radius: 14px; color: #a7bbff; background: rgba(118,156,255,.1); font-size: 24px; }
+.empty-state h2 { margin: 0 0 5px; color: #dfe6f7; font-size: 16px; }
+.empty-state p { margin: 0; max-width: 440px; font-size: 12px; line-height: 1.5; }
+.empty-state code { color: #bdcaff; }
 
 .notification-panel {
   margin-top: 18px; padding: 22px 24px; border: 1px solid var(--panel-border); border-radius: 22px;

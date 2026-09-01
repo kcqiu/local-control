@@ -13,15 +13,13 @@ if not exist "node_modules\next" (
   )
 )
 
-if not exist ".next\BUILD_ID" (
-  echo Preparing Local Control...
-  call npm run build
-  if errorlevel 1 (
-    echo.
-    echo Local Control could not be prepared. Review the message above.
-    pause
-    exit /b 1
-  )
+echo Preparing Local Control...
+call npm run build
+if errorlevel 1 (
+  echo.
+  echo Local Control could not be prepared. Review the message above.
+  pause
+  exit /b 1
 )
 
 call npm run start
