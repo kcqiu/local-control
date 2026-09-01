@@ -1,6 +1,9 @@
 const http = require("node:http");
 const { execFileSync } = require("node:child_process");
 const next = require("next");
+const { loadEnvConfig } = require("@next/env");
+
+loadEnvConfig(process.cwd());
 const { monitorServices } = require("./lib/services");
 
 const dev = process.env.NODE_ENV !== "production";

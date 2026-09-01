@@ -1,6 +1,10 @@
 node_modules/
 .next/
-.env.local
-npm-debug.log*
-data/settings.json
-data/settings.json.tmp
+.env*
+!.env.example
+*.log
+data/
+coverage/
+.DS_Store
+Thumbs.db
+.vscode/
