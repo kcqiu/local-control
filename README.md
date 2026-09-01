@@ -29,7 +29,7 @@ Local Control is a private, mobile-first dashboard for monitoring and controllin
 3. Replace the example services with your projects.
 4. Double-click `Start Local Control.cmd`.
 
-The launcher installs missing dependencies, creates a fresh production build, detects the computer's Tailscale IPv4 address, and listens on port `3333`. Open the printed address in iPhone Safari and choose **Share → Add to Home Screen** for an app-like shortcut.
+The launcher installs missing dependencies, detects whether Local Control is already running, creates a fresh production build only when stopped, then detects the computer's Tailscale IPv4 address and listens on port `3333`. Open the printed address in iPhone Safari and choose **Share → Add to Home Screen** for an app-like shortcut.
 
 ## Configuring services
 
@@ -54,6 +54,8 @@ LOCAL_CONTROL_SERVICE_WEBSITE_NTFY_ENV_KEY=NTFY_TOPIC
 ```
 
 Restart Local Control after changing `.env.local`.
+
+Use the dashboard's two-tap power button before restarting after configuration or source changes. Opening the desktop launcher while Local Control is already active safely reuses the existing instance instead of rebuilding its live files.
 
 ### Per-service settings
 

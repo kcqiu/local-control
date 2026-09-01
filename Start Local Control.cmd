@@ -13,6 +13,12 @@ if not exist "node_modules\next" (
   )
 )
 
+node scripts\check-running.js
+if not errorlevel 1 (
+  timeout /t 3 /nobreak >nul
+  exit /b 0
+)
+
 echo Preparing Local Control...
 call npm run build
 if errorlevel 1 (
