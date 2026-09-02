@@ -14,6 +14,11 @@ Local Control is a private, mobile-first dashboard for monitoring and controllin
 - Responsive Safari layout with iPhone safe-area support
 - Same-origin protection for all state-changing controls
 
+## Screenshots
+
+
+<img width="900" height="1261" alt="Screenshot 2026-09-01 213259" src="https://github.com/user-attachments/assets/0fdbdcee-39dd-4080-8259-06521ee764f3" />
+
 ## Requirements
 
 - Windows 10 or 11
